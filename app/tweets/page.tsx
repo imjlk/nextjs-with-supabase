@@ -1,9 +1,10 @@
 import NewTweetForm from "@/components/NewTweetForm";
 import TweetLikes from "@/components/TweetLikes";
+import Tweets from "@/components/Tweets";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 
-export default async function Login() {
+export default async function Page() {
   const supabase = createServerComponentClient<Database>({ cookies });
   const { data } = await supabase
     .from("tweets")
@@ -26,15 +27,7 @@ export default async function Login() {
   return (
     <div className="">
       <NewTweetForm />
-      {tweets?.map((tweet) => (
-        <div key={tweet.id} className="flex flex-col items-center mb-4 lg:mb-4">
-          <p className="flex gap-8 justify-center items-center">
-            {tweet?.title}
-          </p>
-          <p>{tweet.author?.username}</p>
-          <TweetLikes tweet={tweet} />
-        </div>
-      ))}
+      <Tweets tweets={tweets} />
       <hr />
       <pre>{JSON.stringify(tweets, null, 2)}</pre>
     </div>
